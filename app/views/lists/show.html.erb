@@ -1,0 +1,24 @@
+<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/background.png);">
+  <div class="container">
+    <h1 class = "mb-3"><%= @list[:name] %></h1>    
+    <%= link_to("Add a movie", new_list_bookmark_path(@list), class: 'btn btn-primary') %>
+    <%= link_to("Lists", lists_path, class: 'btn btn-warning') %>
+  </div>
+</div>
+
+<div class = "d-flex justify-content-evenly mt-5 gap-5 flex-wrap">
+  <% @list.movies.each do |movie| %>
+    <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
+    <div class="card rounded" style="width: 350px;">
+      <img src="<%= movie[:poster_url] %>" class="card-img-top" alt="<%= movie[:title] %>">
+      <div class="card-body">
+        <div class = "d-flex justify-content-between">
+          <h5 class="card-title"><%= movie[:title] %></h5>
+          <h5 class="card-title"><%= movie[:rating] %></h5>
+        </div>
+        <p class="card-text"><%= movie[:overview] %></p>
+        <%= link_to("Delete", bookmark_path(bookmark), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}) %>
+      </div>
+    </div>
+  <% end %>
+</div>
